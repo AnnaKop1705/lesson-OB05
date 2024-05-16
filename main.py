@@ -1,6 +1,9 @@
 import pygame
 import random
 
+#Для автоматической инициализации всех модулей Pygame
+pygame.init()
+
 #Определение размеров экрана
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -17,9 +20,17 @@ BULLET_HEIGHT = 20
 TARGET_WIDTH = 50
 TARGET_HEIGHT = 50
 
+#Создаём окно с определёнными размерами, заголовком, фоном и иконкой, задаем шрифт
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+background_img = pygame.image.load('img/fone 800 600.jpg')
+icon = pygame.image.load('img/icon 64 64.jpg')
+pygame.display.set_icon(icon)
+pygame.display.set_caption('Охота на уток')
+font = pygame.font.Font(None, 36)
+
+clock = pygame.time.Clock()
+
 #Создаем класс для ружья
-
-
 class Gan(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -33,6 +44,7 @@ class Gan(pygame.sprite.Sprite):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.rect.centery = mouse_y
 
+#Создаем класс для пули
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -47,6 +59,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+#Создаем класс для мишени
 class Target(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -61,30 +74,20 @@ class Target(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
-clock = pygame.time.Clock()
-
-#Создадим группу всех спрайтов и ружье
-all_sprites = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
-targets = pygame.sprite.Group()
-
-gan = Gan()
-all_sprites.add(gan)
-
+#Функция создания мишеней
 def new_target():
     target = Target()
     all_sprites.add(target)
     targets.add(target)
 
-#Для автоматической инициализации всех модулей Pygame
-pygame.init()
+#Создадим группу всех спрайтов
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+targets = pygame.sprite.Group()
 
-#Создаём окно с определёнными размерами, заголовком, фоном и иконкой
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-background_img = pygame.image.load('img/fone 800 600.jpg')
-icon = pygame.image.load('img/icon 64 64.jpg')
-pygame.display.set_icon(icon)
-pygame.display.set_caption('Охота на уток')
+#Создаем ружье
+gan = Gan()
+all_sprites.add(gan)
 
 #Игровой цикл
 play = True
