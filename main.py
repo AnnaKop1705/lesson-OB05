@@ -90,29 +90,31 @@ gan = Gan()
 all_sprites.add(gan)
 
 #Игровой цикл
-play = True
-while play:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            play = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                bullet = Bullet(gan.rect.left + 20, gan.rect.centery - 17)
-                all_sprites.add(bullet)
-                bullets.add(bullet)
-    if pygame.time.get_ticks() % 100 == 0:
-        new_target()
+def play_game():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    bullet = Bullet(gan.rect.left + 20, gan.rect.centery - 17)
+                    all_sprites.add(bullet)
+                    bullets.add(bullet)
+        if pygame.time.get_ticks() % 100 == 0:
+            new_target()
 
-    hits = pygame.sprite.groupcollide(bullets, targets, True, True)
-    for hit in hits:
-        new_target()
+        hits = pygame.sprite.groupcollide(bullets, targets, True, True)
+        for hit in hits:
+            new_target()
 
-    screen.blit(background_img, (0, 0))
+        screen.blit(background_img, (0, 0))
 
-    all_sprites.update()
-    all_sprites.draw(screen)
+        all_sprites.update()
+        all_sprites.draw(screen)
 
-    pygame.display.flip()
-    clock.tick(60)
+        pygame.display.flip()
+        clock.tick(60)
 
-pygame.quit()
+play_game()
