@@ -107,11 +107,11 @@ while play:
     for hit in hits:
         new_target()
 
-    all_sprites.update()
-
     screen.blit(background_img, (0, 0))
 
+    all_sprites.update()
     all_sprites.draw(screen)
+
     pygame.display.flip()
     clock.tick(60)
 
